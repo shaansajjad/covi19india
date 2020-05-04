@@ -4,3 +4,7 @@ body {
   box-sizing: border-box;
   font-family: "Archivo", sans-serif;
 }
+.App {
+  display: flex;
+  justify-content: space-between;
+}

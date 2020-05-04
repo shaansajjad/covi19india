@@ -4,7 +4,7 @@ import "../css/App.css";
 
 function App() {
   return (
-    <div className="App">
+    <div className="pure-app">
       <RouterPage />
     </div>
   );
