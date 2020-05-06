@@ -1,59 +1,60 @@
-// import {STATE_ROW_STATISTICS, DISTRICT_ROW_STATISTICS} from '../constants';
+import { STATE_ROW_STATISTICS, DISTRICT_ROW_STATISTICS } from "../../Constants";
 import {
   formatDate,
   formatNumber,
   capitalize,
   abbreviate,
-} from '../utils/commonfunctions';
+} from "../utils/Commonfunctions";
+import "./Table.css";
 
-import classnames from 'classnames';
-import {formatDistance} from 'date-fns';
-import equal from 'fast-deep-equal';
-import React, {useState, useCallback, useMemo} from 'react';
-import * as Icon from 'react-feather';
-import {useHistory} from 'react-router-dom';
-import ReactTooltip from 'react-tooltip';
-import {createBreakpoint, useLocalStorage, useEffectOnce} from 'react-use';
+import classnames from "classnames";
+import { formatDistance } from "date-fns";
+import equal from "fast-deep-equal";
+import React, { useState, useCallback, useMemo } from "react";
+import * as Icon from "react-feather";
+import { Redirect } from "react-router-dom";
+import ReactTooltip from "react-tooltip";
+import { createBreakpoint, useLocalStorage, useEffectOnce } from "react-use";
 
-const useBreakpoint = createBreakpoint({XL: 1280, L: 768, S: 350});
+const useBreakpoint = createBreakpoint({ XL: 1280, L: 768, S: 350 });
 
-function StateCell({state, statistic}) {
+function StateCell({ state, statistic }, props) {
   const ArrowUp = useMemo(() => <Icon.ArrowUp />, []);
 
   return (
     <td>
-      <span className={classnames('delta', `is-${statistic}`)}>
+      <span className={classnames("delta", `is-${statistic}`)}>
         {state[`delta${statistic}`] > 0 && ArrowUp}
         {state[`delta${statistic}`] > 0 && state[`delta${statistic}`]}
       </span>
       <span className="total">
-        {state[statistic] === 0 ? '-' : formatNumber(state[statistic])}
+        {state[statistic] === 0 ? "-" : formatNumber(state[statistic])}
       </span>
     </td>
   );
 }
 
-function DistrictHeaderCell({handleSort, statistic, sortData}) {
+function DistrictHeaderCell({ handleSort, statistic, sortData }) {
   const breakpoint = useBreakpoint();
 
   return (
     <td onClick={() => handleSort(statistic)}>
       <div className="heading-content">
         <abbr
-          className={classnames({[`is-${statistic}`]: breakpoint === 'S'})}
+          className={classnames({ [`is-${statistic}`]: breakpoint === "S" })}
           title={statistic}
         >
-          {breakpoint === 'L'
+          {breakpoint === "L"
             ? statistic.slice(0)
-            : breakpoint === 'S'
+            : breakpoint === "S"
             ? capitalize(
-                abbreviate(statistic === 'deaths' ? 'deceased' : statistic)
+                abbreviate(statistic === "deaths" ? "deceased" : statistic)
               )
-            : capitalize(statistic === 'deaths' ? 'deceased' : statistic)}
+            : capitalize(statistic === "deaths" ? "deceased" : statistic)}
         </abbr>
         <div
           style={{
-            display: sortData.sortColumn === statistic ? 'initial' : 'none',
+            display: sortData.sortColumn === statistic ? "initial" : "none",
           }}
         >
           {sortData.isAscending ? (
@@ -67,10 +68,10 @@ function DistrictHeaderCell({handleSort, statistic, sortData}) {
   );
 }
 
-function PureDistrictCell({district, statistic}) {
+function PureDistrictCell({ district, statistic }) {
   return (
     <td>
-      <span className={classnames('delta', `is-${statistic}`)}>
+      <span className={classnames("delta", `is-${statistic}`)}>
         {district.delta[statistic] > 0 && <Icon.ArrowUp />}
         {district.delta[statistic] > 0 && district.delta[statistic]}
       </span>
@@ -103,8 +104,8 @@ function PureDistrictRow({
   return (
     <tr
       key={district.district}
-      className={classnames('district', {
-        'is-highlighted': regionHighlighted?.district === district,
+      className={classnames("district", {
+        "is-highlighted": regionHighlighted?.district === district,
       })}
       onMouseEnter={() => onHighlightDistrict(district, state)}
     >
@@ -160,31 +161,32 @@ const isEqual = (prevProps, currProps) => {
   return true;
 };
 
-function Row({
-  index,
-  state,
-  districts,
-  zones,
-  regionHighlighted,
-  onHighlightState,
-  onHighlightDistrict,
-}) {
+function Row(
+  {
+    index,
+    state,
+    districts,
+    zones,
+    regionHighlighted,
+    onHighlightState,
+    onHighlightDistrict,
+  },
+  props
+) {
   const [sortedDistricts, setSortedDistricts] = useState(districts);
   const [showDistricts, setShowDistricts] = useState(false);
-  const [sortData, setSortData] = useLocalStorage('districtSortData', {
-    sortColumn: 'confirmed',
+  const [sortData, setSortData] = useLocalStorage("districtSortData", {
+    sortColumn: "confirmed",
     isAscending: false,
   });
-
-  const history = useHistory();
 
   const Chevron = useMemo(
     () => (
       <span
         className={classnames(
-          'dropdown',
-          {rotateRightDown: showDistricts},
-          {rotateDownRight: !showDistricts}
+          "dropdown",
+          { rotateRightDown: showDistricts },
+          { rotateDownRight: !showDistricts }
         )}
       >
         <Icon.ChevronDown />
@@ -207,7 +209,7 @@ function Row({
       const sorted = {};
       Object.keys(sortedDistricts)
         .sort((district1, district2) => {
-          if (sortData.sortColumn !== 'district') {
+          if (sortData.sortColumn !== "district") {
             return sortData.isAscending
               ? parseInt(sortedDistricts[district1][sortData.sortColumn]) -
                   parseInt(sortedDistricts[district2][sortData.sortColumn])
@@ -240,21 +242,21 @@ function Row({
   );
 
   useEffectOnce(() => {
-    if (state.statecode !== 'TT') doSort(sortData);
+    if (state.statecode !== "TT") doSort(sortData);
   });
 
   return (
     <React.Fragment>
       <tr
         className={classnames(
-          'state',
-          {'is-total': state.statecode === 'TT'},
-          {'is-highlighted': regionHighlighted?.state.state === state.state},
-          {'is-odd': index % 2 === 0}
+          "state",
+          { "is-total": state.statecode === "TT" },
+          { "is-highlighted": regionHighlighted?.state.state === state.state },
+          { "is-odd": index % 2 === 0 }
         )}
         onMouseEnter={() => _onHighlightState(state)}
         onClick={
-          state.statecode !== 'TT'
+          state.statecode !== "TT"
             ? () => {
                 setShowDistricts(!showDistricts);
               }
@@ -263,7 +265,7 @@ function Row({
       >
         <td>
           <div className="title-chevron">
-            {state.statecode !== 'TT' && Chevron}
+            {state.statecode !== "TT" && Chevron}
             <span className="title-icon">
               {state.state}
 
@@ -291,12 +293,12 @@ function Row({
             </td>
           </tr>
 
-          <tr className={'state-last-update'}>
-            <td colSpan={3} style={{paddingBottom: 0}}>
+          <tr className={"state-last-update"}>
+            <td colSpan={3} style={{ paddingBottom: 0 }}>
               <p className="spacer"></p>
               <p>
                 {isNaN(Date.parse(formatDate(state.lastupdatedtime)))
-                  ? ''
+                  ? ""
                   : `Last updated ${formatDistance(
                       new Date(formatDate(state.lastupdatedtime)),
                       new Date()
@@ -314,19 +316,19 @@ function Row({
               className="state-page-link"
               colSpan={2}
               onClick={() => {
-                history.push(`state/${state.statecode}`);
+                Redirect(`state/${state.statecode}`);
               }}
             >{`View ${state.state}'s Page`}</td>
           </tr>
 
-          <tr className={classnames('district-heading')}>
-            <td onClick={() => handleSort('district')}>
+          <tr className={classnames("district-heading")}>
+            <td onClick={() => handleSort("district")}>
               <div className="heading-content">
                 <abbr title="District">District</abbr>
                 <div
                   style={{
                     display:
-                      sortData.sortColumn === 'district' ? 'initial' : 'none',
+                      sortData.sortColumn === "district" ? "initial" : "none",
                   }}
                 >
                   {sortData.isAscending ? (
