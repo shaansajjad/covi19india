@@ -1,0 +1,56 @@
+.cards-container {
+  margin-left: 5rem;
+  padding: 2rem;
+}
+.cards-container .cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.cards-container .cards .card {
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: calc(33% - 1em);
+  height: 30rem;
+  margin-bottom: 2em;
+}
+.cards-container .cards .card .charts-header {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: flex-start;
+}
+.cards-container .cards .card .charts-header .chart-title {
+  color: #6c757d;
+  font-family: "archia";
+  font-size: 1.5rem !important;
+  font-weight: 900;
+  padding: 20px 0;
+  text-transform: uppercase;
+}
+.cards-container .cards .card .charts-header .chart-content {
+  height: 100%;
+  width: 100%;
+}
+.chartjs-size-monitor,
+.chartjs-size-monitor-expand,
+.chartjs-size-monitor-shrink {
+  position: absolute;
+  direction: ltr;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+  visibility: hidden;
+  z-index: -1;
+}
+.cards-container .cards .card .charts-header .chart-note {
+  color: #6c757d;
+  font-family: "archia";
+  font-size: 0.8rem;
+  height: 50px;
+  margin-top: 5px;
+}

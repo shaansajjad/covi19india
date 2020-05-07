@@ -26,7 +26,10 @@
     "react-table": "^7.0.4",
     "react-tooltip": "^4.2.5",
     "topojson": "^3.0.2",
-    "react-use": "^14.2.0"
+    "deepmerge": "^4.2.2",
+    "react-use": "^14.2.0",
+    "react-chartjs-2": "^2.9.0",
+    "chart.js": "^2.9.3"
   },
   "scripts": {
     "start": "react-scripts start",

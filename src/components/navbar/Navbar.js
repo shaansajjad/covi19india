@@ -1,5 +1,6 @@
 import React from "react";
 import "./Navbar.css";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 export default function Navbar() {
   return (
     <div className="navbar">
@@ -12,24 +13,24 @@ export default function Navbar() {
         </div>
         <ul className="main-menuul">
           <li>
-            <a href="#">
+            <Link to="/">
               <i className="fa fa-home fa-2x"></i>
               <span className="nav-text">Home</span>
-            </a>
+            </Link>
           </li>
           <li className="has-subnav">
-            <a href="#">
+            <Link to="/demo">
               {/* <i className="fa fa-laptop fa-2x"></i> */}
               <i className="fa fa-user"></i>
 
               <span className="nav-text">Demographics</span>
-            </a>
+            </Link>
           </li>
           <li className="has-subnav">
-            <a href="#">
+            <Link to="/deep">
               <i className="fa fa-list fa-2x"></i>
               <span className="nav-text">Deep Dive</span>
-            </a>
+            </Link>
           </li>
           <li className="has-subnav">
             <a href="#">
@@ -40,12 +41,12 @@ export default function Navbar() {
             </a>
           </li>
           <li>
-            <a href="#">
+            <Link to="/about">
               <i className="fa fa-question-circle"></i>
               {/* <i class="far fa-question-circle"></i> */}
 
               <span className="nav-text">FAQ</span>
-            </a>
+            </Link>
           </li>
           <li>
             <h5 className="nav-h">A crowdsourced initiative.</h5>
